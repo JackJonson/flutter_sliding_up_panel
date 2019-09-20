@@ -1,8 +1,8 @@
 name: flutter_sliding_up_panel
 description: A sliding up panel widget.
-version: 0.0.1
+version: 0.0.2
 author: linzhiliang<yswing1@gmail.com>
-homepage: https://github.com/JackJonson/flutter_styled_toast
+homepage: https://github.com/JackJonson/flutter_sliding_up_panel
 email: yswing1@gmail.com
 
 environment:
