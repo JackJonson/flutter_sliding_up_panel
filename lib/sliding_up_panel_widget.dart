@@ -176,6 +176,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
       child: MediaQuery.removePadding(
         context: context,
         removeTop: false,
+        removeBottom: true,
         child: SafeArea(
           child: AnimatedBuilder(
             animation: _animationController,
