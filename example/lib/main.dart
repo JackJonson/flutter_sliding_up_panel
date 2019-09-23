@@ -156,7 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.center,
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.menu,size: 30,),
+                    Icon(
+                      Icons.menu,
+                      size: 30,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(
                         left: 8.0,
