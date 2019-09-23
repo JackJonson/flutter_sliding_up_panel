@@ -1,3 +1,6 @@
+## [0.0.3]
+Fix bug of readme.
+
 ## [0.0.2]
 Fix bug.
 
