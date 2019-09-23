@@ -23,16 +23,77 @@ import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 Stack(
   children: <Widget>[
     Scaffold(
-      body: Container(),
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              widget.onSetting?.call();
+            },
+          )
+        ],
+      ),
+      body: Container(
+        child:Center(
+          child:Text('This is content'),
+        ),
+      ),
     ),
     SlidingUpPanelWidget(
-      child: Container(),
+      child: Column(
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            alignment: Alignment.center,
+            height: 50.0,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.menu,size: 30,),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0,),
+                ),
+                Text(
+                  'click or drag',
+                )
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          ),
+          Divider(
+            height: 0.5,
+            color: Colors.grey,
+          ),
+          Flexible(
+            child: Container(
+              child: ListView.separated(
+                controller: scrollController,
+                physics: ClampingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text('list item $index'),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    height: 0.5,
+                  );
+                },
+                shrinkWrap: true,
+                itemCount: 20,
+              ),
+              color: Colors.white,
+            ),
+          ),
+        ],
+        mainAxisSize: MainAxisSize.min,
+      ),
       controlHeight: 50.0,
       anchor: 0.4,
       panelController: panelController,
     ),
   ],
-)
+);
 ```
 
 
