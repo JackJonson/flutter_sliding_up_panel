@@ -85,7 +85,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
   }
 
   static SlidingUpPanelWidget of(BuildContext context) {
-    return context.ancestorWidgetOfExactType(SlidingUpPanelWidget);
+    return context.findAncestorWidgetOfExactType<SlidingUpPanelWidget>();
   }
 
   /// Creates an animation controller suitable for controlling a [SlidingUpPanelWidget].
