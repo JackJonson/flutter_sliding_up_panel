@@ -154,7 +154,12 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: EdgeInsets.symmetric(horizontal: 15.0),
             decoration: ShapeDecoration(
               color: Colors.white,
-              shadows: [BoxShadow(blurRadius: 5.0,spreadRadius: 2.0,color: const Color(0x11000000))],
+              shadows: [
+                BoxShadow(
+                    blurRadius: 5.0,
+                    spreadRadius: 2.0,
+                    color: const Color(0x11000000))
+              ],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.0),
