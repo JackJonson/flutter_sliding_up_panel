@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 
@@ -149,57 +150,70 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         SlidingUpPanelWidget(
-          child: Column(
-            children: <Widget>[
-              Container(
-                color: Colors.white,
-                alignment: Alignment.center,
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.menu,
-                      size: 30,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 8.0,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 15.0),
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shadows: [BoxShadow(blurRadius: 5.0,spreadRadius: 2.0,color: const Color(0x11000000))],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                ),
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.menu,
+                        size: 30,
                       ),
-                    ),
-                    Text(
-                      'click or drag',
-                    )
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ),
-                height: 50.0,
-              ),
-              Divider(
-                height: 0.5,
-                color: Colors.grey,
-              ),
-              Flexible(
-                child: Container(
-                  child: ListView.separated(
-                    controller: scrollController,
-                    physics: ClampingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text('list item $index'),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 0.5,
-                      );
-                    },
-                    shrinkWrap: true,
-                    itemCount: 20,
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                        ),
+                      ),
+                      Text(
+                        'click or drag',
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
                   ),
-                  color: Colors.white,
+                  height: 50.0,
                 ),
-              ),
-            ],
-            mainAxisSize: MainAxisSize.min,
+                Divider(
+                  height: 0.5,
+                  color: Colors.grey,
+                ),
+                Flexible(
+                  child: Container(
+                    child: ListView.separated(
+                      controller: scrollController,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('list item $index'),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          height: 0.5,
+                        );
+                      },
+                      shrinkWrap: true,
+                      itemCount: 20,
+                    ),
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
           ),
           controlHeight: 50.0,
           anchor: 0.4,

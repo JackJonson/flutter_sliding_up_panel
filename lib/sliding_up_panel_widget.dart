@@ -73,7 +73,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.animationController,
     @required this.panelController,
     this.onStatusChanged,
-    this.elevation = 8.0,
+    this.elevation = 0.0,
     this.panelStatus = SlidingUpPanelStatus.collapsed,
     this.anchor = 0.5,
   });
@@ -191,7 +191,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
               onVerticalDragEnd: _handleDragEnd,
               child: Material(
                 key: _childKey,
-                color: Theme.of(context).backgroundColor,
+                color: Colors.transparent,
                 elevation: widget.elevation,
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height,
