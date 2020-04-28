@@ -165,7 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: <Widget>[
                 Container(
-
                   alignment: Alignment.center,
                   child: Row(
                     children: <Widget>[
@@ -188,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Divider(
                   height: 0.5,
-                  color: Colors.grey,
+                  color: Colors.grey[300],
                 ),
                 Flexible(
                   child: Container(
