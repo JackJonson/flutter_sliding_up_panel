@@ -104,6 +104,15 @@ Stack(
       controlHeight: 50.0,
       anchor: 0.4,
       panelController: panelController,
+      onTap: (){
+         ///Customize the processing logic
+         if(SlidingUpPanelStatus.expanded==panelController.status){
+            panelController.collapse();
+         }else{
+            panelController.expand();
+         }
+      },  //Pass a onTap callback to customize the processing logic when user click control bar.
+      enableOnTap: true,//Enable the onTap callback for control bar.
     ),
   ],
 );
@@ -114,14 +123,16 @@ Stack(
 
 property            | description
 --------------------|----------------------------
-child               | Widget (Not Null)(required)
-controlHeight       | double (Not Null)(required)   
-animationController | AnimationController 
-panelController     | SlidingUpPanelController (Not Null)(required)
-onStatusChanged     | OnSlidingUpPanelStatusChanged 
-elevation           | double (default 8.0)   
-panelStatus         | SlidingUpPanelStatus (default SlidingUpPanelStatus.collapsed)   
-anchor              | double (default 0.5)   
+child               | Widget (Not Null)(required) (Child widget)
+controlHeight       | double (Not Null)(required) (The height of the control bar which could be used to drag or click to control this panel)   
+animationController | AnimationController  (The animation that controls the bottom sheet's position.)
+panelController     | SlidingUpPanelController (Not Null)(required) (The controller to control panel)
+onStatusChanged     | OnSlidingUpPanelStatusChanged  (Called when the this panel status changed)
+elevation           | double (default 8.0) (Elevation of the panel)  
+panelStatus         | SlidingUpPanelStatus (default SlidingUpPanelStatus.collapsed) (Panel status)  
+anchor              | double (default 0.5) (The fraction of anchor position, which is from 0 to 1.0)
+onTap               | VoidCallback (default is a build-in callback) (Void callback when click control bar)
+enableOnTap         | bool (Not Null)(default is true) (Enable or disable the tap callback for control bar) 
 
 
 ## Example

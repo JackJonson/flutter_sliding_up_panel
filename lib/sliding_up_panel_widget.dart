@@ -53,10 +53,16 @@ class SlidingUpPanelWidget extends StatefulWidget {
 
   /// Called when the bottom sheet begins to close.
   ///
-  /// A bottom sheet might be prevented from closing (e.g., by user
+  /// The panel might be prevented from closing (e.g., by user
   /// interaction) even after this callback is called. For this reason, this
   /// callback might be call multiple times for a given bottom sheet.
   final OnSlidingUpPanelStatusChanged onStatusChanged;
+
+  ///Void callback when click control bar
+  final VoidCallback onTap;
+
+  ///Enable the tap callback for control bar
+  final bool enableOnTap;
 
   ///Elevation of the panel
   final double elevation;
@@ -73,6 +79,8 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.animationController,
     @required this.panelController,
     this.onStatusChanged,
+    this.onTap,
+    this.enableOnTap = true,
     this.elevation = 0.0,
     this.panelStatus = SlidingUpPanelStatus.collapsed,
     this.anchor = 0.5,
@@ -203,19 +211,23 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
           ),
         ),
       ),
-      onTap: () {
-        if (SlidingUpPanelStatus.anchored == widget.panelController.status) {
-          collapse();
-        } else if (SlidingUpPanelStatus.collapsed ==
-            widget.panelController.status) {
-          anchor();
-        } else if (SlidingUpPanelStatus.expanded ==
-            widget.panelController.status) {
-          collapse();
-        } else {
-          collapse();
-        }
-      },
+      onTap: widget.enableOnTap
+          ? (widget.onTap ??
+              () {
+                if (SlidingUpPanelStatus.anchored ==
+                    widget.panelController.status) {
+                  collapse();
+                } else if (SlidingUpPanelStatus.collapsed ==
+                    widget.panelController.status) {
+                  anchor();
+                } else if (SlidingUpPanelStatus.expanded ==
+                    widget.panelController.status) {
+                  collapse();
+                } else {
+                  collapse();
+                }
+              })
+          : null,
     );
   }
 
@@ -223,8 +235,6 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
   void _handleDragUpdate(DragUpdateDetails details) {
     _animationController.value -=
         details.primaryDelta / (_childHeight ?? details.primaryDelta);
-//    widget.panelController.value = SlidingUpPanelStatus.dragging;
-//    widget.onStatusChanged?.call(widget.panelController.status);
   }
 
   ///Handle method when user release drag.

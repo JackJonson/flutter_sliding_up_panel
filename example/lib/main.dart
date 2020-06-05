@@ -222,6 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
           controlHeight: 50.0,
           anchor: 0.4,
           panelController: panelController,
+          onTap: () {
+            ///Customize the processing logic
+            if (SlidingUpPanelStatus.expanded == panelController.status) {
+              panelController.collapse();
+            } else {
+              panelController.expand();
+            }
+          },
+          enableOnTap: true, //Enable the onTap callback for control bar.
         ),
       ],
     );
