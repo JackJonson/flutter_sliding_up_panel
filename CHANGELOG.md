@@ -1,3 +1,6 @@
+## [1.1.0+1]
+Update readme.
+
 ## [1.1.0]
 Add two parameters:
   onTap: A onTap callback to customize the processing logic when user click control bar.
