@@ -12,7 +12,7 @@ A sliding up panel widget which can be used to show or hide content, beautiful a
 
 ```yaml
 dependencies:
-  flutter_sliding_up_panel: ^1.1.0
+  flutter_sliding_up_panel: ^1.0.0
 ```
 
 ```dart
