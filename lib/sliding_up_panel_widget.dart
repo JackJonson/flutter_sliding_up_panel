@@ -267,6 +267,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
   void _handleDragUpdate(DragUpdateDetails details) {
     _animationController.value -=
         details.primaryDelta / (_childHeight ?? details.primaryDelta);
+    widget.panelController.value = SlidingUpPanelStatus.dragging;
+    widget.onStatusChanged?.call(widget.panelController.status);
     widget.dragUpdate?.call(details);
   }
 
