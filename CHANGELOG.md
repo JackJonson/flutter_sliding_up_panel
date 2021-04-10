@@ -1,3 +1,10 @@
+## [1.2.0]
+Add four parameters:
+   dragStart: Drag start listener.
+   dragUpdate: Drag update listener.
+   dragCancel:  Drag start listener.
+   dragEnd: Drag end listener.
+
 ## [1.1.0+1]
 Update readme.
 

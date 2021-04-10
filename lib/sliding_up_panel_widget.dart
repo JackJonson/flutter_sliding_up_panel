@@ -1,45 +1,49 @@
 import 'package:flutter/material.dart';
 
-///On panel status changed
+/// On panel status changed
 typedef OnSlidingUpPanelStatusChanged = void Function(
     SlidingUpPanelStatus status);
+
+/// On drag end when user start drag this panel
+typedef OnSlidingUpPanelDragStart=void Function(DragStartDetails details);
+
+/// On drag end when user cancel drag this panel
+typedef OnSlidingUpPanelDragCancel=void Function();
+
+/// On drag update when user drag this panel
+typedef OnSlidingUpPanelDragUpdate=void Function(DragUpdateDetails details);
+
+/// On drag end when user drag this panel
+typedef OnSlidingUpPanelDragEnd=void Function(DragEndDetails details);
 
 const Duration _kSlidingUpPanelDuration = Duration(milliseconds: 400);
 const double _kMinFlingVelocity = 100.0;
 const double _kCloseProgressThreshold = 0.2;
 
-///Sliding up panel status enum
+/// Sliding up panel status enum
 enum SlidingUpPanelStatus {
-  ///The panel is fully expanded
+  /// The panel is fully expanded
   expanded,
 
-  ///The panel is collapsed
+  /// The panel is collapsed
   collapsed,
 
-  ///The panel is anchored
+  /// The panel is anchored
   anchored,
 
-  ///The panel is hidden
+  /// The panel is hidden
   hidden,
 
-  ///The panel is dragging
-  ///todo
+  /// The panel is dragging
   dragging,
 }
 
-///
-///created time: 2019-09-18 15:11
-///author linzhiliang
-///version 1.0
-///since
-///file name: sliding_up_panel_widget.dart
-///description:
-///
+/// Sliding up panel widget
 class SlidingUpPanelWidget extends StatefulWidget {
-  ///Child widget
+  /// Child widget
   final Widget child;
 
-  ///The height of the widget to drag
+  /// The height of the widget to drag
   final double controlHeight;
 
   /// The animation that controls the bottom sheet's position.
@@ -48,7 +52,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
   /// is not just a passive observer.
   final AnimationController animationController;
 
-  ///The controller of the panel
+  /// The controller of the panel
   final SlidingUpPanelController panelController;
 
   /// Called when the bottom sheet begins to close.
@@ -58,20 +62,32 @@ class SlidingUpPanelWidget extends StatefulWidget {
   /// callback might be call multiple times for a given bottom sheet.
   final OnSlidingUpPanelStatusChanged onStatusChanged;
 
-  ///Void callback when click control bar
+  /// Void callback when click control bar
   final VoidCallback onTap;
 
-  ///Enable the tap callback for control bar
+  /// Enable the tap callback for control bar
   final bool enableOnTap;
 
-  ///Elevation of the panel
+  /// Elevation of the panel
   final double elevation;
 
-  ///Panel status
+  /// Panel status
   final SlidingUpPanelStatus panelStatus;
 
-  ///Anchor
+  /// Anchor
   final double anchor;
+
+  /// Drag start listener
+  final OnSlidingUpPanelDragStart dragStart;
+
+  /// Drag start listener
+  final OnSlidingUpPanelDragCancel dragCancel;
+
+  /// Drag update listener
+  final OnSlidingUpPanelDragUpdate dragUpdate;
+
+  /// Drag end listener
+  final OnSlidingUpPanelDragEnd dragEnd;
 
   SlidingUpPanelWidget({
     @required this.child,
@@ -84,6 +100,10 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.elevation = 0.0,
     this.panelStatus = SlidingUpPanelStatus.collapsed,
     this.anchor = 0.5,
+    this.dragCancel,
+    this.dragStart,
+    this.dragUpdate,
+    this.dragEnd,
   });
 
   @override
@@ -197,6 +217,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
             child: GestureDetector(
               onVerticalDragUpdate: _handleDragUpdate,
               onVerticalDragEnd: _handleDragEnd,
+              onVerticalDragStart: _handleDragStart,
+              onVerticalDragCancel: _handleDragCancel,
               child: Material(
                 key: _childKey,
                 color: Colors.transparent,
@@ -231,10 +253,21 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
     );
   }
 
+  ///Handle method when user start drag
+  void _handleDragStart(DragStartDetails details) {
+    widget.dragStart?.call(details);
+  }
+
+  ///Handle method when user cancel drag
+  void _handleDragCancel() {
+    widget.dragCancel?.call();
+  }
+
   ///Handle method when user drag the panel
   void _handleDragUpdate(DragUpdateDetails details) {
     _animationController.value -=
         details.primaryDelta / (_childHeight ?? details.primaryDelta);
+    widget.dragUpdate?.call(details);
   }
 
   ///Handle method when user release drag.
@@ -268,6 +301,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
     } else {
       collapse();
     }
+    widget.dragEnd?.call(details);
   }
 
   ///Collapse the panel
