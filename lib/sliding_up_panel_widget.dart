@@ -5,16 +5,16 @@ typedef OnSlidingUpPanelStatusChanged = void Function(
     SlidingUpPanelStatus status);
 
 /// On drag end when user start drag this panel
-typedef OnSlidingUpPanelDragStart=void Function(DragStartDetails details);
+typedef OnSlidingUpPanelDragStart = void Function(DragStartDetails details);
 
 /// On drag end when user cancel drag this panel
-typedef OnSlidingUpPanelDragCancel=void Function();
+typedef OnSlidingUpPanelDragCancel = void Function();
 
 /// On drag update when user drag this panel
-typedef OnSlidingUpPanelDragUpdate=void Function(DragUpdateDetails details);
+typedef OnSlidingUpPanelDragUpdate = void Function(DragUpdateDetails details);
 
 /// On drag end when user drag this panel
-typedef OnSlidingUpPanelDragEnd=void Function(DragEndDetails details);
+typedef OnSlidingUpPanelDragEnd = void Function(DragEndDetails details);
 
 const Duration _kSlidingUpPanelDuration = Duration(milliseconds: 400);
 const double _kMinFlingVelocity = 100.0;
