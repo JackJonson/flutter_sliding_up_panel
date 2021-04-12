@@ -231,19 +231,20 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           },
           enableOnTap: true, //Enable the onTap callback for control bar.
-          dragDown: (details){
+          dragDown: (details) {
             print('dragDown');
           },
-          dragStart: (details){
+          dragStart: (details) {
             print('dragStart');
           },
-          dragCancel: (){
+          dragCancel: () {
             print('dragCancel');
           },
-          dragUpdate: (details){
-            print('dragUpdate,${panelController.status==SlidingUpPanelStatus.dragging?'dragging':''}');
+          dragUpdate: (details) {
+            print(
+                'dragUpdate,${panelController.status == SlidingUpPanelStatus.dragging ? 'dragging' : ''}');
           },
-          dragEnd: (details){
+          dragEnd: (details) {
             print('dragEnd');
           },
         ),
