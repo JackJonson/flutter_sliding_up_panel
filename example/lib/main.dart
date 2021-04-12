@@ -231,6 +231,9 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           },
           enableOnTap: true, //Enable the onTap callback for control bar.
+          dragDown: (details){
+            print('dragDown');
+          },
           dragStart: (details){
             print('dragStart');
           },

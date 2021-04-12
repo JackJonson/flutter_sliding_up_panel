@@ -12,7 +12,7 @@ A sliding up panel widget which can be used to show or hide content, beautiful a
 
 ```yaml
 dependencies:
-  flutter_sliding_up_panel: ^1.2.0
+  flutter_sliding_up_panel: ^1.2.1
 ```
 
 ```dart
@@ -113,6 +113,21 @@ Stack(
          }
       },  //Pass a onTap callback to customize the processing logic when user click control bar.
       enableOnTap: true,//Enable the onTap callback for control bar.
+      dragDown: (details){
+         print('dragDown');
+      },
+      dragStart: (details){
+         print('dragStart');
+      },
+      dragCancel: (){
+         print('dragCancel');
+      },
+      dragUpdate: (details){
+         print('dragUpdate,${panelController.status==SlidingUpPanelStatus.dragging?'dragging':''}');
+      },
+      dragEnd: (details){
+         print('dragEnd');
+      },
     ),
   ],
 );
@@ -133,7 +148,11 @@ panelStatus         | SlidingUpPanelStatus (default SlidingUpPanelStatus.collaps
 anchor              | double (default 0.5) (The fraction of anchor position, which is from 0 to 1.0)
 onTap               | VoidCallback (default is a build-in callback) (Void callback when click control bar)
 enableOnTap         | bool (Not Null)(default is true) (Enable or disable the tap callback for control bar) 
-
+dragDown            | OnSlidingUpPanelDragDown (default is null) (Drag down listener) 
+dragStart           | OnSlidingUpPanelDragStart (default is null) (Drag start listener) 
+dragUpdate          | OnSlidingUpPanelDragUpdate (default is null) (Drag update listener) 
+dragCancel          | OnSlidingUpPanelDragCancel (default is null) (Drag cancel listener) 
+dragEnd             | OnSlidingUpPanelDragEnd (default is null) (Drag end listener) 
 
 ## Example
 [example](https://github.com/JackJonson/flutter_sliding_up_panel/blob/master/example/lib/main.dart)

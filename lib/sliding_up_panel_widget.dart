@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 typedef OnSlidingUpPanelStatusChanged = void Function(
     SlidingUpPanelStatus status);
 
-/// On drag end when user start drag this panel
+/// On drag down when user drag down this panel
+typedef OnSlidingUpPanelDragDown = void Function(DragDownDetails details);
+
+/// On drag start when user start drag this panel
 typedef OnSlidingUpPanelDragStart = void Function(DragStartDetails details);
 
-/// On drag end when user cancel drag this panel
+/// On drag cancel when user cancel drag this panel
 typedef OnSlidingUpPanelDragCancel = void Function();
 
 /// On drag update when user drag this panel
@@ -77,6 +80,9 @@ class SlidingUpPanelWidget extends StatefulWidget {
   /// Anchor
   final double anchor;
 
+  /// Drag down listener
+  final OnSlidingUpPanelDragDown dragDown;
+
   /// Drag start listener
   final OnSlidingUpPanelDragStart dragStart;
 
@@ -100,6 +106,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.elevation = 0.0,
     this.panelStatus = SlidingUpPanelStatus.collapsed,
     this.anchor = 0.5,
+    this.dragDown,
     this.dragCancel,
     this.dragStart,
     this.dragUpdate,
@@ -108,7 +115,6 @@ class SlidingUpPanelWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _SlidingUpPanelWidgetState();
   }
 
@@ -219,6 +225,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
               onVerticalDragEnd: _handleDragEnd,
               onVerticalDragStart: _handleDragStart,
               onVerticalDragCancel: _handleDragCancel,
+              onVerticalDragDown: _handleDragDown,
               child: Material(
                 key: _childKey,
                 color: Colors.transparent,
@@ -256,6 +263,11 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
   ///Handle method when user start drag
   void _handleDragStart(DragStartDetails details) {
     widget.dragStart?.call(details);
+  }
+
+  ///Handle method when user drag down
+  void _handleDragDown(DragDownDetails details) {
+    widget.dragDown?.call(details);
   }
 
   ///Handle method when user cancel drag
@@ -356,6 +368,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
         break;
       case SlidingUpPanelStatus.hidden:
         hide();
+        break;
+      case SlidingUpPanelStatus.dragging:
         break;
       default:
         collapse();

@@ -1,3 +1,7 @@
+## [1.2.1]
+Add one parameters:
+   dragDown: Drag down listener.
+
 ## [1.2.0]
 Add four parameters:
    dragStart: Drag start listener.
