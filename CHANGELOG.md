@@ -1,3 +1,6 @@
+## [2.0.0]
+Migrate to null safety.
+
 ## [1.2.1]
 Add one parameters:
    dragDown: Drag down listener.

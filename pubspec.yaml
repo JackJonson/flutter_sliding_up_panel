@@ -1,11 +1,11 @@
 name: flutter_sliding_up_panel
 description: A sliding up panel widget which can be used to show or hide content, beautiful and simple.
-version: 1.2.1
+version: 2.0.0
 homepage: https://github.com/JackJonson/flutter_sliding_up_panel
 email: yswing1@gmail.com
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:

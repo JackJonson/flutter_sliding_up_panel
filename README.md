@@ -15,6 +15,12 @@ dependencies:
   flutter_sliding_up_panel: ^1.2.1
 ```
 
+## Null safety
+```yaml
+dependencies:
+  flutter_styled_toast: ^2.0.0
+```
+
 ```dart
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 ```

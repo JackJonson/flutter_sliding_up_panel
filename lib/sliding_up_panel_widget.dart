@@ -53,7 +53,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
   ///
   /// The BottomSheet widget will manipulate the position of this animation, it
   /// is not just a passive observer.
-  final AnimationController animationController;
+  final AnimationController? animationController;
 
   /// The controller of the panel
   final SlidingUpPanelController panelController;
@@ -63,10 +63,10 @@ class SlidingUpPanelWidget extends StatefulWidget {
   /// The panel might be prevented from closing (e.g., by user
   /// interaction) even after this callback is called. For this reason, this
   /// callback might be call multiple times for a given bottom sheet.
-  final OnSlidingUpPanelStatusChanged onStatusChanged;
+  final OnSlidingUpPanelStatusChanged? onStatusChanged;
 
   /// Void callback when click control bar
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// Enable the tap callback for control bar
   final bool enableOnTap;
@@ -81,25 +81,25 @@ class SlidingUpPanelWidget extends StatefulWidget {
   final double anchor;
 
   /// Drag down listener
-  final OnSlidingUpPanelDragDown dragDown;
+  final OnSlidingUpPanelDragDown? dragDown;
 
   /// Drag start listener
-  final OnSlidingUpPanelDragStart dragStart;
+  final OnSlidingUpPanelDragStart? dragStart;
 
   /// Drag start listener
-  final OnSlidingUpPanelDragCancel dragCancel;
+  final OnSlidingUpPanelDragCancel? dragCancel;
 
   /// Drag update listener
-  final OnSlidingUpPanelDragUpdate dragUpdate;
+  final OnSlidingUpPanelDragUpdate? dragUpdate;
 
   /// Drag end listener
-  final OnSlidingUpPanelDragEnd dragEnd;
+  final OnSlidingUpPanelDragEnd? dragEnd;
 
   SlidingUpPanelWidget({
-    @required this.child,
-    @required this.controlHeight,
+    required this.child,
+    required this.controlHeight,
     this.animationController,
-    @required this.panelController,
+    required this.panelController,
     this.onStatusChanged,
     this.onTap,
     this.enableOnTap = true,
@@ -118,7 +118,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
     return _SlidingUpPanelWidgetState();
   }
 
-  static SlidingUpPanelWidget of(BuildContext context) {
+  static SlidingUpPanelWidget? of(BuildContext context) {
     return context.findAncestorWidgetOfExactType<SlidingUpPanelWidget>();
   }
 
@@ -134,17 +134,17 @@ class SlidingUpPanelWidget extends StatefulWidget {
 
 class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
     with SingleTickerProviderStateMixin<SlidingUpPanelWidget> {
-  Animation<Offset> animation;
+  late Animation<Offset> animation;
 
   final GlobalKey _childKey =
       GlobalKey(debugLabel: 'SlidingUpPanelWidget child');
 
-  double get _childHeight {
-    final RenderBox renderBox = _childKey.currentContext.findRenderObject();
+  double? get _childHeight {
+    RenderBox renderBox = _childKey.currentContext!.findRenderObject()! as RenderBox;
     return renderBox.size.height;
   }
 
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
   double upperBound = 1.0;
 
@@ -155,12 +155,12 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
   @override
   void initState() {
     upperBound = 1.0;
-    widget.panelController?.addListener(handlePanelStatusChanged);
+    widget.panelController.addListener(handlePanelStatusChanged);
     if (widget.animationController == null) {
       _animationController =
           SlidingUpPanelWidget.createAnimationController(this);
     } else {
-      _animationController = widget.animationController;
+      _animationController = widget.animationController!;
     }
     animation = _animationController.drive(
       Tween(begin: Offset(0.0, upperBound), end: Offset.zero).chain(
@@ -170,7 +170,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
       ),
     );
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _initData(context));
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _initData(context));
   }
 
   void _initData(BuildContext context) {
@@ -178,8 +178,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
         widget.controlHeight / MediaQuery.of(context).size.height;
     anchorFraction = widget.anchor * upperBound;
 
-    widget.panelController?.value = widget.panelStatus;
-    switch (widget.panelController?.status) {
+    widget.panelController.value = widget.panelStatus;
+    switch (widget.panelController.status) {
       case SlidingUpPanelStatus.anchored:
         _animationController.value = anchorFraction;
         break;
@@ -200,7 +200,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   @override
   void dispose() {
-    _animationController?.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -214,7 +214,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
         child: SafeArea(
           child: AnimatedBuilder(
             animation: _animationController,
-            builder: (BuildContext context, Widget child) {
+            builder: (BuildContext context, Widget? child) {
               return SlideTransition(
                 child: child,
                 position: animation,
@@ -278,7 +278,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
   ///Handle method when user drag the panel
   void _handleDragUpdate(DragUpdateDetails details) {
     _animationController.value -=
-        details.primaryDelta / (_childHeight ?? details.primaryDelta);
+        details.primaryDelta! / (_childHeight ?? details.primaryDelta!);
     widget.panelController.value = SlidingUpPanelStatus.dragging;
     widget.onStatusChanged?.call(widget.panelController.status);
     widget.dragUpdate?.call(details);
@@ -320,7 +320,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Collapse the panel
   void collapse() {
-    _animationController?.animateTo(collapseFraction,
+    _animationController.animateTo(collapseFraction,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.collapsed;
     widget.onStatusChanged?.call(widget.panelController.status);
@@ -328,7 +328,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Expand the panel
   void expand() {
-    _animationController?.animateTo(1.0,
+    _animationController.animateTo(1.0,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.expanded;
     widget.onStatusChanged?.call(widget.panelController.status);
@@ -336,7 +336,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Anchor the panel
   void anchor() {
-    _animationController?.animateTo(anchorFraction,
+    _animationController.animateTo(anchorFraction,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.anchored;
     widget.onStatusChanged?.call(widget.panelController.status);
@@ -344,7 +344,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Hide the panel
   void hide() {
-    _animationController?.animateTo(0.0,
+    _animationController.animateTo(0.0,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.hidden;
     widget.onStatusChanged?.call(widget.panelController.status);
@@ -352,9 +352,6 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Handle the status changed of panel
   void handlePanelStatusChanged() {
-    if (widget.panelController == null) {
-      return;
-    }
     widget.onStatusChanged?.call(widget.panelController.value);
     switch (widget.panelController.value) {
       case SlidingUpPanelStatus.anchored:
@@ -386,7 +383,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
 ///The controller of SlidingUpPanelWidget
 class SlidingUpPanelController extends ValueNotifier<SlidingUpPanelStatus> {
-  SlidingUpPanelController({SlidingUpPanelStatus value})
+  SlidingUpPanelController({SlidingUpPanelStatus? value})
       : super(value != null ? value : SlidingUpPanelStatus.collapsed);
 
   SlidingUpPanelStatus get status => value;
