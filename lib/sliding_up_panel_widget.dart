@@ -140,7 +140,8 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
       GlobalKey(debugLabel: 'SlidingUpPanelWidget child');
 
   double? get _childHeight {
-    RenderBox renderBox = _childKey.currentContext!.findRenderObject()! as RenderBox;
+    RenderBox renderBox =
+        _childKey.currentContext!.findRenderObject()! as RenderBox;
     return renderBox.size.height;
   }
 
