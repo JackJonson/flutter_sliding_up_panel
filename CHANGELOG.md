@@ -1,3 +1,6 @@
+## [2.0.1]
+Formatting code.
+
 ## [2.0.0]
 Migrate to null safety.
 
