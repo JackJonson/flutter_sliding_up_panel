@@ -47,7 +47,8 @@ class MyHomePage extends StatefulWidget {
 
   final VoidCallback onSetting;
 
-  MyHomePage({Key key, this.title, this.onSetting}) : super(key: key);
+  MyHomePage({Key? key, required this.title, required this.onSetting})
+      : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -58,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // Whether the green box should be visible or invisible
 
-  ScrollController scrollController;
+  late ScrollController scrollController;
 
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
@@ -103,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                TextButton(
                   child: Text('Show panel'),
                   onPressed: () {
                     panelController.expand();
@@ -112,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                TextButton(
                   child: Text('Anchor panel'),
                   onPressed: () {
                     panelController.anchor();
@@ -121,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                TextButton(
                   child: Text('Expand panel'),
                   onPressed: () {
                     panelController.expand();
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                TextButton(
                   child: Text('Collapse panel'),
                   onPressed: () {
                     panelController.collapse();
@@ -139,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                TextButton(
                   child: Text('Hide panel'),
                   onPressed: () {
                     panelController.hide();
@@ -230,7 +231,8 @@ class _MyHomePageState extends State<MyHomePage> {
               panelController.expand();
             }
           },
-          enableOnTap: true, //Enable the onTap callback for control bar.
+          enableOnTap: true,
+          //Enable the onTap callback for control bar.
           dragDown: (details) {
             print('dragDown');
           },
