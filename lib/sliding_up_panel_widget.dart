@@ -80,6 +80,12 @@ class SlidingUpPanelWidget extends StatefulWidget {
   /// Anchor
   final double anchor;
 
+  /// The maximum height of the panel
+  final double upperBound;
+
+  /// The minimum height of the panel
+  final double minimumBound;
+
   /// Drag down listener
   final OnSlidingUpPanelDragDown? dragDown;
 
@@ -106,6 +112,8 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.elevation = 0.0,
     this.panelStatus = SlidingUpPanelStatus.collapsed,
     this.anchor = 0.5,
+    this.upperBound = 1.0,
+    this.minimumBound = 0.0,
     this.dragDown,
     this.dragCancel,
     this.dragStart,
@@ -153,9 +161,10 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   double collapseFraction = 0.0;
 
+  double minimumBound = 0.0;
+
   @override
   void initState() {
-    upperBound = 1.0;
     widget.panelController.addListener(handlePanelStatusChanged);
     if (widget.animationController == null) {
       _animationController =
@@ -171,13 +180,18 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
       ),
     );
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _initData(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initData(context));
   }
 
   void _initData(BuildContext context) {
-    collapseFraction =
-        widget.controlHeight / MediaQuery.of(context).size.height;
-    anchorFraction = widget.anchor * upperBound;
+    upperBound = widget.upperBound;
+    minimumBound = widget.minimumBound;
+    collapseFraction = minimumBound;
+    if (minimumBound > widget.anchor * upperBound) {
+      anchorFraction = minimumBound;
+    } else {
+      anchorFraction = widget.anchor * upperBound;
+    }
 
     widget.panelController.value = widget.panelStatus;
     switch (widget.panelController.status) {
@@ -188,10 +202,10 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
         _animationController.value = collapseFraction;
         break;
       case SlidingUpPanelStatus.expanded:
-        _animationController.value = 1.0;
+        _animationController.value = upperBound;
         break;
       case SlidingUpPanelStatus.hidden:
-        _animationController.value = 0.0;
+        _animationController.value = minimumBound;
         break;
       default:
         _animationController.value = collapseFraction;
@@ -329,7 +343,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Expand the panel
   void expand() {
-    _animationController.animateTo(1.0,
+    _animationController.animateTo(upperBound,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.expanded;
     widget.onStatusChanged?.call(widget.panelController.status);
@@ -345,7 +359,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Hide the panel
   void hide() {
-    _animationController.animateTo(0.0,
+    _animationController.animateTo(0,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.hidden;
     widget.onStatusChanged?.call(widget.panelController.status);

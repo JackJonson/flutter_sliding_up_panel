@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Show panel'),
                   onPressed: () {
                     panelController.expand();
@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Anchor panel'),
                   onPressed: () {
                     panelController.anchor();
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Expand panel'),
                   onPressed: () {
                     panelController.expand();
@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Collapse panel'),
                   onPressed: () {
                     panelController.collapse();
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: EdgeInsets.only(top: 50.0),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Hide panel'),
                   onPressed: () {
                     panelController.hide();
@@ -221,6 +221,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           controlHeight: 50.0,
           anchor: 0.4,
+          upperBound: 0.9,
+          minimumBound: 0.4,
           panelController: panelController,
           onTap: () {
             ///Customize the processing logic
