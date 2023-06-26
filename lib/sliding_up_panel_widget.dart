@@ -77,7 +77,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
   /// Panel status
   final SlidingUpPanelStatus panelStatus;
 
-  /// Anchor
+  /// Anchor is proportion of [upperBound], value range is 0-1
   final double anchor;
 
   /// The maximum height of the panel
@@ -119,7 +119,9 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.dragStart,
     this.dragUpdate,
     this.dragEnd,
-  });
+  })  : assert(upperBound != null),
+        assert(minimumBound != null),
+        assert(upperBound >= minimumBound);
 
   @override
   State<StatefulWidget> createState() {
@@ -186,7 +188,14 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
   void _initData(BuildContext context) {
     upperBound = widget.upperBound;
     minimumBound = widget.minimumBound;
-    collapseFraction = minimumBound;
+    if (widget.controlHeight / MediaQuery.of(context).size.height >
+        minimumBound) {
+      collapseFraction =
+          widget.controlHeight / MediaQuery.of(context).size.height;
+    } else {
+      collapseFraction = minimumBound;
+    }
+
     if (minimumBound > widget.anchor * upperBound) {
       anchorFraction = minimumBound;
     } else {

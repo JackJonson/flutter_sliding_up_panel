@@ -1,3 +1,6 @@
+## [2.1.0]
+Add upperBound and minimumBound to control the maximum and minimum height of the panel.
+
 ## [2.0.1]
 Formatting code.
 
