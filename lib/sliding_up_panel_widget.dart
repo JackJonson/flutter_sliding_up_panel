@@ -119,9 +119,7 @@ class SlidingUpPanelWidget extends StatefulWidget {
     this.dragStart,
     this.dragUpdate,
     this.dragEnd,
-  })  : assert(upperBound != null),
-        assert(minimumBound != null),
-        assert(upperBound >= minimumBound);
+  }) : assert(upperBound >= minimumBound);
 
   @override
   State<StatefulWidget> createState() {
