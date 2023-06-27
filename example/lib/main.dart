@@ -220,8 +220,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           controlHeight: 50.0,
           anchor: 0.4,
-          upperBound: 1.0,
-          minimumBound: 0,
+          upperBound: 0.9,
+          minimumBound: 0.4,
           panelController: panelController,
           onTap: () {
             ///Customize the processing logic
