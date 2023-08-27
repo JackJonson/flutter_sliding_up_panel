@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 
@@ -64,6 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
   ///The controller of sliding up panel
   SlidingUpPanelController panelController = SlidingUpPanelController();
 
+  double minBound = 0;
+
+  double upperBound = 1.0;
+
   @override
   void initState() {
     scrollController = ScrollController();
@@ -92,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: Icon(Icons.settings),
                 onPressed: () {
-                  widget.onSetting?.call();
+                  widget.onSetting.call();
                 },
               )
             ],
@@ -144,6 +147,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Hide panel'),
                   onPressed: () {
                     panelController.hide();
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('minimumBound 0.3'),
+                  onPressed: () {
+                    setState(() {
+                      minBound = 0.3;
+                    });
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('upperBound 0.7'),
+                  onPressed: () {
+                    setState(() {
+                      upperBound = 0.7;
+                    });
                   },
                 ),
               ],
@@ -222,6 +247,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           controlHeight: 50.0,
           anchor: 0.4,
+          minimumBound: minBound,
+          upperBound: upperBound,
           panelController: panelController,
           onTap: () {
             ///Customize the processing logic

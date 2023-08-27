@@ -155,13 +155,9 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   late AnimationController _animationController;
 
-  double upperBound = 1.0;
-
   double anchorFraction = 0.5;
 
   double collapseFraction = 0.0;
-
-  double minimumBound = 0.0;
 
   @override
   void initState() {
@@ -173,7 +169,10 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
       _animationController = widget.animationController!;
     }
     animation = _animationController.drive(
-      Tween(begin: Offset(0.0, upperBound), end: Offset.zero).chain(
+      Tween(
+              begin: Offset(0.0, widget.upperBound),
+              end: Offset(0.0, widget.minimumBound))
+          .chain(
         CurveTween(
           curve: Curves.linear,
         ),
@@ -183,21 +182,30 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
     WidgetsBinding.instance.addPostFrameCallback((_) => _initData(context));
   }
 
-  void _initData(BuildContext context) {
-    upperBound = widget.upperBound;
-    minimumBound = widget.minimumBound;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initData(context));
+  }
+
+  /// ReCalculate collapse fraction
+  void reCalculateCollapseFraction() {
     if (widget.controlHeight / MediaQuery.of(context).size.height >
-        minimumBound) {
+        widget.minimumBound) {
       collapseFraction =
           widget.controlHeight / MediaQuery.of(context).size.height;
     } else {
-      collapseFraction = minimumBound;
+      collapseFraction = widget.minimumBound;
     }
+  }
 
-    if (minimumBound > widget.anchor * upperBound) {
-      anchorFraction = minimumBound;
+  void _initData(BuildContext context) {
+    reCalculateCollapseFraction();
+
+    if (widget.minimumBound > widget.anchor * widget.upperBound) {
+      anchorFraction = widget.minimumBound;
     } else {
-      anchorFraction = widget.anchor * upperBound;
+      anchorFraction = widget.anchor * widget.upperBound;
     }
 
     widget.panelController.value = widget.panelStatus;
@@ -209,10 +217,10 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
         _animationController.value = collapseFraction;
         break;
       case SlidingUpPanelStatus.expanded:
-        _animationController.value = upperBound;
+        _animationController.value = widget.upperBound;
         break;
       case SlidingUpPanelStatus.hidden:
-        _animationController.value = minimumBound;
+        _animationController.value = widget.minimumBound;
         break;
       default:
         _animationController.value = collapseFraction;
@@ -329,10 +337,10 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
     } else if (_animationController.value < _kCloseProgressThreshold) {
       collapse();
     } else if ((_animationController.value >=
-        (anchorFraction + upperBound) / 2)) {
+        (anchorFraction + widget.upperBound) / 2)) {
       expand();
     } else if (_animationController.value >= _kCloseProgressThreshold &&
-        _animationController.value < (anchorFraction + upperBound) / 2) {
+        _animationController.value < (anchorFraction + widget.upperBound) / 2) {
       anchor();
     } else {
       collapse();
@@ -342,6 +350,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Collapse the panel
   void collapse() {
+    reCalculateCollapseFraction();
     _animationController.animateTo(collapseFraction,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.collapsed;
@@ -350,7 +359,7 @@ class _SlidingUpPanelWidgetState extends State<SlidingUpPanelWidget>
 
   ///Expand the panel
   void expand() {
-    _animationController.animateTo(upperBound,
+    _animationController.animateTo(widget.upperBound,
         curve: Curves.linearToEaseOut, duration: _kSlidingUpPanelDuration);
     widget.panelController.value = SlidingUpPanelStatus.expanded;
     widget.onStatusChanged?.call(widget.panelController.status);
