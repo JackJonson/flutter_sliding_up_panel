@@ -13,7 +13,7 @@ A sliding up panel widget which can be used to show or hide content, beautiful a
 ## Null safety
 ```yaml
 dependencies:
-  flutter_styled_toast: ^2.0.1
+  flutter_sliding_up_panel: ^2.1.1
 ```
 
 ## Previous version
